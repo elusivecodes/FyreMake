@@ -38,7 +38,7 @@ In PHP:
 ```php
 use Fyre\Command\CommandRunner;
 
-CommandRunner::addNamespace('\Fyre\Make');
+CommandRunner::addNamespace('\Fyre\Make\Commands');
 ```
 
 
