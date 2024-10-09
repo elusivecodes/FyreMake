@@ -1,0 +1,21 @@
+<?php
+declare(strict_types=1);
+
+namespace {namespace};
+
+use Fyre\Command\Command;
+use Fyre\Console\Console;
+
+class {class} extends Command
+{
+    protected string|null $alias = '{alias}';
+
+    protected string|null $name = '{name}';
+
+    protected string $description = '{description}';
+
+    public function run(array $arguments = []): int|null
+    {
+        return static::CODE_SUCCESS;
+    }
+}

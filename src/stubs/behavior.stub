@@ -1,0 +1,12 @@
+<?php
+declare(strict_types=1);
+
+namespace {namespace};
+
+use Fyre\Entity\Entity;
+use Fyre\ORM\Behavior;
+
+class {class} extends Behavior
+{
+    protected static array $defaults = [];
+}

@@ -1,0 +1,28 @@
+<?php
+declare(strict_types=1);
+
+namespace {namespace};
+
+use Fyre\Entity\Entity;
+use Fyre\ORM\Model;
+use Fyre\ORM\RuleSet;
+use Fyre\Validation\Rule;
+use Fyre\Validation\Validator;
+
+class {class} extends Model
+{
+    public function __construct()
+    {
+        //
+    }
+
+    public function buildRules(RuleSet $rules): RuleSet
+    {
+        return $rules;
+    }
+
+    public function buildValidation(Validator $validator): Validator
+    {
+        return $validator;
+    }
+}
