@@ -5,7 +5,6 @@
 
 ## Table Of Contents
 - [Installation](#installation)
-- [Methods](#methods)
 - [Commands](#commands)
 
 
