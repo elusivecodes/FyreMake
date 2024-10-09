@@ -6,6 +6,22 @@
 ## Table Of Contents
 - [Installation](#installation)
 - [Commands](#commands)
+    - [Make Behavior](#make-behavior)
+    - [Make Cell](#make-cell)
+    - [Make Cell Template](#make-cell-template)
+    - [Make Command](#make-command)
+    - [Make Config](#make-config)
+    - [Make Controller](#make-controller)
+    - [Make Element](#make-element)
+    - [Make Entity](#make-entity)
+    - [Make Helper](#make-helper)
+    - [Make Job](#make-job)
+    - [Make Lang](#make-lang)
+    - [Make Layout](#make-layout)
+    - [Make Middleware](#make-middleware)
+    - [Make Migration](#make-migration)
+    - [Make Model](#make-model)
+    - [Make Template](#make-template)
 
 
 
