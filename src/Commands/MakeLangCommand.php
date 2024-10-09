@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
 use Fyre\Lang\Lang;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 
 use function file_exists;
@@ -13,7 +15,7 @@ use function is_dir;
 /**
  * MakeLangCommand
  */
-class MakeLangCommand extends MakeCommand
+class MakeLangCommand extends Command
 {
     protected string|null $alias = 'make:lang';
 
@@ -49,7 +51,7 @@ class MakeLangCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $lang = static::normalizePath($lang);
+        $lang = Make::normalizePath($lang);
 
         $fullPath = Path::join($path, $language, $lang.'.php');
 
@@ -59,9 +61,9 @@ class MakeLangCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('lang');
+        $contents = Make::loadStub('lang');
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Lang file could not be written.');
 
             return static::CODE_ERROR;

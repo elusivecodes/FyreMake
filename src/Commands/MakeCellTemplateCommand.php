@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 use Fyre\View\Template;
 
@@ -13,7 +15,7 @@ use function is_dir;
 /**
  * MakeCellTemplateCommand
  */
-class MakeCellTemplateCommand extends MakeCommand
+class MakeCellTemplateCommand extends Command
 {
     protected string|null $alias = 'make:cell_template';
 
@@ -49,7 +51,7 @@ class MakeCellTemplateCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $template = static::normalizePath($template);
+        $template = Make::normalizePath($template);
 
         $fullPath = Path::join($path, $cellsFolder, $template.'.php');
 
@@ -59,9 +61,9 @@ class MakeCellTemplateCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('cell_template');
+        $contents = Make::loadStub('cell_template');
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Cell template file could not be written.');
 
             return static::CODE_ERROR;

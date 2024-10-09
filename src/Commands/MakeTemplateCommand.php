@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 use Fyre\View\Template;
 
@@ -13,7 +15,7 @@ use function is_dir;
 /**
  * MakeTemplateCommand
  */
-class MakeTemplateCommand extends MakeCommand
+class MakeTemplateCommand extends Command
 {
     protected string|null $alias = 'make:template';
 
@@ -48,7 +50,7 @@ class MakeTemplateCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $template = static::normalizePath($template);
+        $template = Make::normalizePath($template);
 
         $fullPath = Path::join($path, $template.'.php');
 
@@ -58,9 +60,9 @@ class MakeTemplateCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('template');
+        $contents = Make::loadStub('template');
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Template file could not be written.');
 
             return static::CODE_ERROR;

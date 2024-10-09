@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 use Fyre\View\Template;
 
@@ -13,7 +15,7 @@ use function is_dir;
 /**
  * MakeElementCommand
  */
-class MakeElementCommand extends MakeCommand
+class MakeElementCommand extends Command
 {
     protected string|null $alias = 'make:element';
 
@@ -49,7 +51,7 @@ class MakeElementCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $element = static::normalizePath($element);
+        $element = Make::normalizePath($element);
 
         $fullPath = Path::join($path, $elementsFolder, $element.'.php');
 
@@ -59,9 +61,9 @@ class MakeElementCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('element');
+        $contents = Make::loadStub('element');
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Element file could not be written.');
 
             return static::CODE_ERROR;

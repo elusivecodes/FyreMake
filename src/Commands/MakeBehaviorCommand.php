@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\ORM\BehaviorRegistry;
 use Fyre\Utility\Path;
 
@@ -12,7 +14,7 @@ use function file_exists;
 /**
  * MakeBehaviorCommand
  */
-class MakeBehaviorCommand extends MakeCommand
+class MakeBehaviorCommand extends Command
 {
     protected string|null $alias = 'make:behavior';
 
@@ -41,9 +43,9 @@ class MakeBehaviorCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        [$namespace, $className] = static::parseNamespaceClass($namespace, $behavior.'Behavior');
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $behavior.'Behavior');
 
-        $path = static::findPath($namespace);
+        $path = Make::findPath($namespace);
 
         if (!$path) {
             Console::error('Namespace path not found.');
@@ -59,12 +61,12 @@ class MakeBehaviorCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('behavior', [
+        $contents = Make::loadStub('behavior', [
             '{namespace}' => $namespace,
             '{class}' => $className,
         ]);
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Behavior file could not be written.');
 
             return static::CODE_ERROR;

@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Command\CommandRunner;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 
 use function file_exists;
@@ -14,7 +16,7 @@ use function strtolower;
 /**
  * MakeCommandCommand
  */
-class MakeCommandCommand extends MakeCommand
+class MakeCommandCommand extends Command
 {
     protected string|null $alias = 'make:command';
 
@@ -46,9 +48,9 @@ class MakeCommandCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        [$namespace, $className] = static::parseNamespaceClass($namespace, $command.'Command');
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $command.'Command');
 
-        $path = static::findPath($namespace);
+        $path = Make::findPath($namespace);
 
         if (!$path) {
             Console::error('Namespace path not found.');
@@ -68,7 +70,7 @@ class MakeCommandCommand extends MakeCommand
         $alias ??= strtolower(preg_replace('/(?<!^)([A-Z]+)/', '_$1', $command));
         $name ??= preg_replace('/(?<!^)([A-Z]+)/', ' $1', $command);
 
-        $contents = static::loadStub('command', [
+        $contents = Make::loadStub('command', [
             '{namespace}' => $namespace,
             '{class}' => $className,
             '{alias}' => $alias,
@@ -76,7 +78,7 @@ class MakeCommandCommand extends MakeCommand
             '{description}' => $description,
         ]);
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Command file could not be written.');
 
             return static::CODE_ERROR;

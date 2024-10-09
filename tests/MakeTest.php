@@ -4,23 +4,23 @@ declare(strict_types=1);
 namespace Tests;
 
 use Fyre\FileSystem\Folder;
-use Fyre\Make\MakeBehaviorCommand;
-use Fyre\Make\MakeCellCommand;
-use Fyre\Make\MakeCellTemplateCommand;
-use Fyre\Make\MakeCommand;
-use Fyre\Make\MakeCommandCommand;
-use Fyre\Make\MakeConfigCommand;
-use Fyre\Make\MakeControllerCommand;
-use Fyre\Make\MakeElementCommand;
-use Fyre\Make\MakeEntityCommand;
-use Fyre\Make\MakeHelperCommand;
-use Fyre\Make\MakeJobCommand;
-use Fyre\Make\MakeLangCommand;
-use Fyre\Make\MakeLayoutCommand;
-use Fyre\Make\MakeMiddlewareCommand;
-use Fyre\Make\MakeMigrationCommand;
-use Fyre\Make\MakeModelCommand;
-use Fyre\Make\MakeTemplateCommand;
+use Fyre\Make\Commands\MakeBehaviorCommand;
+use Fyre\Make\Commands\MakeCellCommand;
+use Fyre\Make\Commands\MakeCellTemplateCommand;
+use Fyre\Make\Commands\MakeCommandCommand;
+use Fyre\Make\Commands\MakeConfigCommand;
+use Fyre\Make\Commands\MakeControllerCommand;
+use Fyre\Make\Commands\MakeElementCommand;
+use Fyre\Make\Commands\MakeEntityCommand;
+use Fyre\Make\Commands\MakeHelperCommand;
+use Fyre\Make\Commands\MakeJobCommand;
+use Fyre\Make\Commands\MakeLangCommand;
+use Fyre\Make\Commands\MakeLayoutCommand;
+use Fyre\Make\Commands\MakeMiddlewareCommand;
+use Fyre\Make\Commands\MakeMigrationCommand;
+use Fyre\Make\Commands\MakeModelCommand;
+use Fyre\Make\Commands\MakeTemplateCommand;
+use Fyre\Make\Make;
 use PHPUnit\Framework\TestCase;
 
 final class MakeTest extends TestCase
@@ -35,7 +35,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('behavior', [
+            Make::loadStub('behavior', [
                 '{namespace}' => 'Example\Models\Behaviors',
                 '{class}' => 'ExampleBehavior',
             ]),
@@ -52,7 +52,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('cell', [
+            Make::loadStub('cell', [
                 '{namespace}' => 'Example\Cells',
                 '{class}' => 'ExampleCell',
                 '{method}' => 'display',
@@ -70,7 +70,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('cell_template'),
+            Make::loadStub('cell_template'),
             $filePath
         );
     }
@@ -84,7 +84,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('command', [
+            Make::loadStub('command', [
                 '{namespace}' => 'Example\Commands',
                 '{class}' => 'ExampleCommand',
                 '{alias}' => 'example',
@@ -104,7 +104,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('config'),
+            Make::loadStub('config'),
             $filePath
         );
     }
@@ -118,7 +118,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('controller', [
+            Make::loadStub('controller', [
                 '{namespace}' => 'Example\Controllers',
                 '{class}' => 'ExampleController',
             ]),
@@ -135,7 +135,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('element'),
+            Make::loadStub('element'),
             $filePath
         );
     }
@@ -149,7 +149,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('entity', [
+            Make::loadStub('entity', [
                 '{namespace}' => 'Example\Entities',
                 '{class}' => 'Example',
             ]),
@@ -166,7 +166,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('helper', [
+            Make::loadStub('helper', [
                 '{namespace}' => 'Example\Helpers',
                 '{class}' => 'ExampleHelper',
             ]),
@@ -183,7 +183,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('job', [
+            Make::loadStub('job', [
                 '{namespace}' => 'Example\Jobs',
                 '{class}' => 'ExampleJob',
             ]),
@@ -200,7 +200,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('lang'),
+            Make::loadStub('lang'),
             $filePath
         );
     }
@@ -214,7 +214,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('layout'),
+            Make::loadStub('layout'),
             $filePath
         );
     }
@@ -228,7 +228,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('middleware', [
+            Make::loadStub('middleware', [
                 '{namespace}' => 'Example\Middleware',
                 '{class}' => 'ExampleMiddleware',
             ]),
@@ -245,7 +245,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('migration', [
+            Make::loadStub('migration', [
                 '{namespace}' => 'Example\Migrations',
                 '{class}' => 'Migration_20240101',
             ]),
@@ -262,7 +262,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('model', [
+            Make::loadStub('model', [
                 '{namespace}' => 'Example\Models',
                 '{class}' => 'ExampleModel',
             ]),
@@ -279,7 +279,7 @@ final class MakeTest extends TestCase
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
-            MakeCommand::loadStub('template'),
+            Make::loadStub('template'),
             $filePath
         );
     }

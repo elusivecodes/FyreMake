@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Migration\MigrationRunner;
 use Fyre\Utility\Path;
 
@@ -13,7 +15,7 @@ use function file_exists;
 /**
  * MakeMigrationCommand
  */
-class MakeMigrationCommand extends MakeCommand
+class MakeMigrationCommand extends Command
 {
     protected string|null $alias = 'make:migration';
 
@@ -40,9 +42,9 @@ class MakeMigrationCommand extends MakeCommand
 
         $migration = 'Migration_'.$version;
 
-        [$namespace, $className] = static::parseNamespaceClass($namespace, $migration);
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $migration);
 
-        $path = static::findPath($namespace);
+        $path = Make::findPath($namespace);
 
         if (!$path) {
             Console::error('Namespace path not found.');
@@ -58,12 +60,12 @@ class MakeMigrationCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('migration', [
+        $contents = Make::loadStub('migration', [
             '{namespace}' => $namespace,
             '{class}' => $className,
         ]);
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Migration file could not be written.');
 
             return static::CODE_ERROR;

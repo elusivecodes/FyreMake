@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
 use Fyre\Entity\EntityLocator;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 
 use function file_exists;
@@ -12,7 +14,7 @@ use function file_exists;
 /**
  * MakeEntityCommand
  */
-class MakeEntityCommand extends MakeCommand
+class MakeEntityCommand extends Command
 {
     protected string|null $alias = 'make:entity';
 
@@ -41,9 +43,9 @@ class MakeEntityCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        [$namespace, $className] = static::parseNamespaceClass($namespace, $entity);
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $entity);
 
-        $path = static::findPath($namespace);
+        $path = Make::findPath($namespace);
 
         if (!$path) {
             Console::error('Namespace path not found.');
@@ -59,12 +61,12 @@ class MakeEntityCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('entity', [
+        $contents = Make::loadStub('entity', [
             '{namespace}' => $namespace,
             '{class}' => $className,
         ]);
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Entity file could not be written.');
 
             return static::CODE_ERROR;

@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 use Fyre\View\HelperRegistry;
 
@@ -12,7 +14,7 @@ use function file_exists;
 /**
  * MakeHelperCommand
  */
-class MakeHelperCommand extends MakeCommand
+class MakeHelperCommand extends Command
 {
     protected string|null $alias = 'make:helper';
 
@@ -41,9 +43,9 @@ class MakeHelperCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        [$namespace, $className] = static::parseNamespaceClass($namespace, $helper.'Helper');
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $helper.'Helper');
 
-        $path = static::findPath($namespace);
+        $path = Make::findPath($namespace);
 
         if (!$path) {
             Console::error('Namespace path not found.');
@@ -59,12 +61,12 @@ class MakeHelperCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('helper', [
+        $contents = Make::loadStub('helper', [
             '{namespace}' => $namespace,
             '{class}' => $className,
         ]);
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Helper file could not be written.');
 
             return static::CODE_ERROR;

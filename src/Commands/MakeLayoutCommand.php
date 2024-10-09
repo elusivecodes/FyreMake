@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 use Fyre\View\Template;
 
@@ -13,7 +15,7 @@ use function is_dir;
 /**
  * MakeLayoutCommand
  */
-class MakeLayoutCommand extends MakeCommand
+class MakeLayoutCommand extends Command
 {
     protected string|null $alias = 'make:layout';
 
@@ -49,7 +51,7 @@ class MakeLayoutCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $layout = static::normalizePath($layout);
+        $layout = Make::normalizePath($layout);
 
         $fullPath = Path::join($path, $layoutsFolder, $layout.'.php');
 
@@ -59,9 +61,9 @@ class MakeLayoutCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('layout');
+        $contents = Make::loadStub('layout');
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Layout file could not be written.');
 
             return static::CODE_ERROR;

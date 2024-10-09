@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 use Fyre\View\CellRegistry;
 
@@ -12,7 +14,7 @@ use function file_exists;
 /**
  * MakeCellCommand
  */
-class MakeCellCommand extends MakeCommand
+class MakeCellCommand extends Command
 {
     protected string|null $alias = 'make:cell';
 
@@ -42,9 +44,9 @@ class MakeCellCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        [$namespace, $className] = static::parseNamespaceClass($namespace, $cell.'Cell');
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $cell.'Cell');
 
-        $path = static::findPath($namespace);
+        $path = Make::findPath($namespace);
 
         if (!$path) {
             Console::error('Namespace path not found.');
@@ -60,13 +62,13 @@ class MakeCellCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('cell', [
+        $contents = Make::loadStub('cell', [
             '{namespace}' => $namespace,
             '{class}' => $className,
             '{method}' => $method,
         ]);
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Cell file could not be written.');
 
             return static::CODE_ERROR;

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Fyre\Make;
 
-use Fyre\Command\Command;
 use Fyre\Loader\Loader;
 use Fyre\Utility\Path;
 
@@ -24,34 +23,17 @@ use const LOCK_EX;
 use const PHP_EOL;
 
 /**
- * MakeCommand
+ * Make
  */
-abstract class MakeCommand extends Command
+abstract class Make
 {
-    /**
-     * Load a stub file with replacements.
-     *
-     * @param string $stub The stub file.
-     * @param array $replacements The replacements.
-     * @return string The loaded stub file.
-     */
-    public static function loadStub(string $stub, array $replacements = []): string
-    {
-        $stubPath = Path::join(__DIR__, 'stubs', $stub.'.stub');
-
-        $contents = file_get_contents($stubPath);
-        $contents = preg_replace('/\R/u', PHP_EOL, $contents);
-
-        return str_replace(array_keys($replacements), array_values($replacements), $contents);
-    }
-
     /**
      * Find full path to a namespace.
      *
      * @param string $namespace The namespace.
      * @return string|null The full path.
      */
-    protected static function findPath(string $namespace): string|null
+    public static function findPath(string $namespace): string|null
     {
         $namespaceSegments = explode('\\', $namespace);
         $pathSegments = [];
@@ -71,6 +53,77 @@ abstract class MakeCommand extends Command
         }
 
         return null;
+    }
+
+    /**
+     * Load a stub file with replacements.
+     *
+     * @param string $stub The stub file.
+     * @param array $replacements The replacements.
+     * @return string The loaded stub file.
+     */
+    public static function loadStub(string $stub, array $replacements = []): string
+    {
+        $stubPath = Path::join(__DIR__, 'stubs', $stub.'.stub');
+
+        $contents = file_get_contents($stubPath);
+        $contents = preg_replace('/\R/u', PHP_EOL, $contents);
+
+        return str_replace(array_keys($replacements), array_values($replacements), $contents);
+    }
+
+    /**
+     * Normalize file path separators.
+     *
+     * @param string $string The string.
+     * @return string The normalized string.
+     */
+    public static function normalizePath(string $string): string
+    {
+        return str_replace('.', '/', $string);
+    }
+
+    /**
+     * Parse namespace and class name.
+     *
+     * @param string $namespace The namespace.
+     * @param string $className The class name.
+     * @return array The parsed namespace and class name.
+     */
+    public static function parseNamespaceClass(string $namespace, string $className): array
+    {
+        $namespace = static::normalizeSeparators($namespace);
+        $namespace = static::normalizeNamespace($namespace);
+
+        $className = static::normalizeSeparators($className);
+        $className = static::normalizeClass($className);
+
+        $namespacedClass = $namespace.$className;
+
+        $namespaceSegments = explode('\\', $namespacedClass);
+
+        $className = array_pop($namespaceSegments);
+        $namespace = implode('\\', $namespaceSegments);
+
+        return [$namespace, $className];
+    }
+
+    /**
+     * Save a new file.
+     *
+     * @param string $fullPath The file path.
+     * @param string $contents The file contents.
+     * @return bool TRUE if the file was written, otherwise FALSE.
+     */
+    public static function saveFile(string $fullPath, string $contents): bool
+    {
+        $path = dirname($fullPath);
+
+        if (!is_dir($path) && !mkdir($path, 0755, true)) {
+            return false;
+        }
+
+        return file_put_contents($fullPath, $contents, LOCK_EX) !== false;
     }
 
     /**
@@ -96,17 +149,6 @@ abstract class MakeCommand extends Command
     }
 
     /**
-     * Normalize file path separators.
-     *
-     * @param string $string The string.
-     * @return string The normalized string.
-     */
-    protected static function normalizePath(string $string): string
-    {
-        return str_replace('.', '/', $string);
-    }
-
-    /**
      * Normalize namespace path separators.
      *
      * @param string $string The string.
@@ -115,48 +157,5 @@ abstract class MakeCommand extends Command
     protected static function normalizeSeparators(string $string): string
     {
         return str_replace(['/', '.'], '\\', $string);
-    }
-
-    /**
-     * Parse namespace and class name.
-     *
-     * @param string $namespace The namespace.
-     * @param string $className The class name.
-     * @return array The parsed namespace and class name.
-     */
-    protected static function parseNamespaceClass(string $namespace, string $className): array
-    {
-        $namespace = static::normalizeSeparators($namespace);
-        $namespace = static::normalizeNamespace($namespace);
-
-        $className = static::normalizeSeparators($className);
-        $className = static::normalizeClass($className);
-
-        $namespacedClass = $namespace.$className;
-
-        $namespaceSegments = explode('\\', $namespacedClass);
-
-        $className = array_pop($namespaceSegments);
-        $namespace = implode('\\', $namespaceSegments);
-
-        return [$namespace, $className];
-    }
-
-    /**
-     * Save a new file.
-     *
-     * @param string $fullPath The file path.
-     * @param string $contents The file contents.
-     * @return bool TRUE if the file was written, otherwise FALSE.
-     */
-    protected static function saveFile(string $fullPath, string $contents): bool
-    {
-        $path = dirname($fullPath);
-
-        if (!is_dir($path) && !mkdir($path, 0755, true)) {
-            return false;
-        }
-
-        return file_put_contents($fullPath, $contents, LOCK_EX) !== false;
     }
 }

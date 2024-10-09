@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Config\Config;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 
 use function file_exists;
@@ -13,7 +15,7 @@ use function is_dir;
 /**
  * MakeConfigCommand
  */
-class MakeConfigCommand extends MakeCommand
+class MakeConfigCommand extends Command
 {
     protected string|null $alias = 'make:config';
 
@@ -48,7 +50,7 @@ class MakeConfigCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $config = static::normalizePath($config);
+        $config = Make::normalizePath($config);
 
         $fullPath = Path::join($path, $config.'.php');
 
@@ -58,9 +60,9 @@ class MakeConfigCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('config');
+        $contents = Make::loadStub('config');
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Config file could not be written.');
 
             return static::CODE_ERROR;

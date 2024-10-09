@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Fyre\Make;
+namespace Fyre\Make\Commands;
 
+use Fyre\Command\Command;
 use Fyre\Console\Console;
+use Fyre\Make\Make;
 use Fyre\Utility\Path;
 
 use function file_exists;
@@ -11,7 +13,7 @@ use function file_exists;
 /**
  * MakeControllerCommand
  */
-class MakeControllerCommand extends MakeCommand
+class MakeControllerCommand extends Command
 {
     protected string|null $alias = 'make:controller';
 
@@ -40,9 +42,9 @@ class MakeControllerCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        [$namespace, $className] = static::parseNamespaceClass($namespace, $controller.'Controller');
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $controller.'Controller');
 
-        $path = static::findPath($namespace);
+        $path = Make::findPath($namespace);
 
         if (!$path) {
             Console::error('Namespace path not found.');
@@ -58,12 +60,12 @@ class MakeControllerCommand extends MakeCommand
             return static::CODE_ERROR;
         }
 
-        $contents = static::loadStub('controller', [
+        $contents = Make::loadStub('controller', [
             '{namespace}' => $namespace,
             '{class}' => $className,
         ]);
 
-        if (!static::saveFile($fullPath, $contents)) {
+        if (!Make::saveFile($fullPath, $contents)) {
             Console::error('Controller file could not be written.');
 
             return static::CODE_ERROR;
