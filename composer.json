@@ -1,6 +1,6 @@
 {
     "name": "fyre/make",
-    "description": "A class/resource generation library.",
+    "description": "A collection of commands for generating files.",
     "type": "library",
     "license": "MIT",
     "authors": [

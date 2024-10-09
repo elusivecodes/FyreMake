@@ -1,6 +1,6 @@
 # FyreMake
 
-**FyreMake** is a free, open-source class/resource generation library for *PHP*.
+**FyreMake** is a free, open-source collection of commands for generating files for [*FyrePHP*](https://github.com/elusivecodes/FyrePHP).
 
 
 ## Table Of Contents
