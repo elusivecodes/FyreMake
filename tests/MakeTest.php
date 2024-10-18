@@ -19,6 +19,7 @@ use Fyre\Make\Commands\MakeLayoutCommand;
 use Fyre\Make\Commands\MakeMiddlewareCommand;
 use Fyre\Make\Commands\MakeMigrationCommand;
 use Fyre\Make\Commands\MakeModelCommand;
+use Fyre\Make\Commands\MakePolicyCommand;
 use Fyre\Make\Commands\MakeTemplateCommand;
 use Fyre\Make\Make;
 use PHPUnit\Framework\TestCase;
@@ -265,6 +266,23 @@ final class MakeTest extends TestCase
             Make::loadStub('model', [
                 '{namespace}' => 'Example\Models',
                 '{class}' => 'ExampleModel',
+            ]),
+            $filePath
+        );
+    }
+
+    public function testMakePolicy(): void
+    {
+        (new MakePolicyCommand())->run(['Example']);
+
+        $filePath = 'tmp/Policies/ExamplePolicy.php';
+
+        $this->assertFileExists($filePath);
+
+        $this->assertFileMatchesFormat(
+            Make::loadStub('policy', [
+                '{namespace}' => 'Example\Policies',
+                '{class}' => 'ExamplePolicy',
             ]),
             $filePath
         );

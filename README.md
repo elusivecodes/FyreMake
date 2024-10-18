@@ -254,6 +254,20 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 ./bin/fyre make:model Example
 ```
 
+### Make Policy
+
+Generate a new [*Policy*](https://github.com/elusivecodes/FyreAuth#policies).
+
+```php
+CommandRunner::run('make:policy', ['Example']);
+```
+
+From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
+
+```bash
+./bin/fyre make:policy Example
+```
+
 ### Make Template
 
 Generate a new view [*template*](https://github.com/elusivecodes/FyreView).

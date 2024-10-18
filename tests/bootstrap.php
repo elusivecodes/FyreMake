@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Fyre\Auth\PolicyRegistry;
 use Fyre\Command\CommandRunner;
 use Fyre\Config\Config;
 use Fyre\Entity\EntityLocator;
@@ -31,5 +32,6 @@ HelperRegistry::addNamespace('Example\Helpers');
 MigrationRunner::setNamespace('Example\Migrations');
 ModelRegistry::addNamespace('Example\Models');
 BehaviorRegistry::addNamespace('Example\Models\Behaviors');
+PolicyRegistry::addNamespace('Example\Policies');
 
 Lang::setDefaultLocale('en');
