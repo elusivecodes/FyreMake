@@ -38,7 +38,7 @@ In PHP:
 ```php
 use Fyre\Command\CommandRunner;
 
-CommandRunner::addNamespace('\Fyre\Make\Commands');
+$commandRunner->addNamespace('\Fyre\Make\Commands');
 ```
 
 
@@ -49,7 +49,7 @@ CommandRunner::addNamespace('\Fyre\Make\Commands');
 Generate a new [*Behavior*](https://github.com/elusivecodes/FyreORM#behaviors).
 
 ```php
-CommandRunner::run('make:behavior', ['Example']);
+$commandRunner->run('make:behavior', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -63,7 +63,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Cell*](https://github.com/elusivecodes/FyreView#cells).
 
 ```php
-CommandRunner::run('make:cell', ['Example']);
+$commandRunner->run('make:cell', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -77,7 +77,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*cell template*](https://github.com/elusivecodes/FyreView#cells).
 
 ```php
-CommandRunner::run('make:cell_template', ['Example.display']);
+$commandRunner->run('make:cell_template', ['Example.display']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -91,7 +91,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Command*](https://github.com/elusivecodes/FyreCommand#commands).
 
 ```php
-CommandRunner::run('make:command', ['Example']);
+$commandRunner->run('make:command', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -105,7 +105,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Config*](https://github.com/elusivecodes/FyreConfig) file.
 
 ```php
-CommandRunner::run('make:config', ['example']);
+$commandRunner->run('make:config', ['example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -119,7 +119,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*controller*](https://github.com/elusivecodes/FyreRouter#controller-routes).
 
 ```php
-CommandRunner::run('make:controller', ['Example']);
+$commandRunner->run('make:controller', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -133,7 +133,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [element](https://github.com/elusivecodes/FyreView#elements).
 
 ```php
-CommandRunner::run('make:element', ['example']);
+$commandRunner->run('make:element', ['example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -147,7 +147,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Entity*](https://github.com/elusivecodes/FyreEntity).
 
 ```php
-CommandRunner::run('make:entity', ['Example']);
+$commandRunner->run('make:entity', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -161,7 +161,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Helper*](https://github.com/elusivecodes/FyreView#helpers).
 
 ```php
-CommandRunner::run('make:helper', ['Example']);
+$commandRunner->run('make:helper', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -175,7 +175,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new queue [*Job*](https://github.com/elusivecodes/FyreQueue).
 
 ```php
-CommandRunner::run('make:job', ['Example']);
+$commandRunner->run('make:job', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -189,7 +189,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*language*](https://github.com/elusivecodes/FyreLang) file.
 
 ```php
-CommandRunner::run('make:lang', ['Example']);
+$commandRunner->run('make:lang', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -203,7 +203,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new view [*layout*](https://github.com/elusivecodes/FyreView#layouts) template.
 
 ```php
-CommandRunner::run('make:layout', ['default']);
+$commandRunner->run('make:layout', ['default']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -217,7 +217,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Middleware*](https://github.com/elusivecodes/FyreMiddleware#middleware).
 
 ```php
-CommandRunner::run('make:middleware', ['Example']);
+$commandRunner->run('make:middleware', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -231,7 +231,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Migration*](https://github.com/elusivecodes/FyreMigration#migrations).
 
 ```php
-CommandRunner::run('make:migration');
+$commandRunner->run('make:migration');
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -245,7 +245,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Model*](https://github.com/elusivecodes/FyreORM#models).
 
 ```php
-CommandRunner::run('make:model', ['Example']);
+$commandRunner->run('make:model', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -259,7 +259,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new [*Policy*](https://github.com/elusivecodes/FyreAuth#policies).
 
 ```php
-CommandRunner::run('make:policy', ['Example']);
+$commandRunner->run('make:policy', ['Example']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
@@ -273,7 +273,7 @@ From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).
 Generate a new view [*template*](https://github.com/elusivecodes/FyreView).
 
 ```php
-CommandRunner::run('make:template', ['Example.index']);
+$commandRunner->run('make:template', ['Example.index']);
 ```
 
 From the CLI (using [*FyrePHP*](https://github.com/elusivecodes/FyrePHP)).

@@ -18,37 +18,36 @@ class MakeEntityCommand extends Command
 {
     protected string|null $alias = 'make:entity';
 
-    protected string $description = 'This command will generate a new entity.';
+    protected string $description = 'Generate a new entity.';
 
-    protected string|null $name = 'Make Entity';
+    protected array $options = [
+        'name' => [
+            'text' => 'Please enter a name for the entity',
+            'required' => true,
+        ],
+        'namespace' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param Make $make The Make.
+     * @param EntityLocator $entityLocator The EntityLocator.
+     * @param Console $io The Console.
+     * @param string $name The entity name.
+     * @param string|null $namespace The entity namespace.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Make $make, EntityLocator $entityLocator, Console $io, string $name, string|null $namespace = null): int|null
     {
-        $entity = $arguments[0] ?? null;
-        $namespace = $arguments['namespace'] ?? EntityLocator::getNamespaces()[0] ?? 'App\Entities';
+        $namespace ??= $entityLocator->getNamespaces()[0] ?? 'App\Entities';
 
-        if (!$entity) {
-            $entity = Console::prompt('Enter a name for the entity');
-        }
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $name);
 
-        if (!$entity) {
-            Console::error('Invalid entity name.');
-
-            return static::CODE_ERROR;
-        }
-
-        [$namespace, $className] = Make::parseNamespaceClass($namespace, $entity);
-
-        $path = Make::findPath($namespace);
+        $path = $make->findPath($namespace);
 
         if (!$path) {
-            Console::error('Namespace path not found.');
+            $io->error('Namespace path not found.');
 
             return static::CODE_ERROR;
         }
@@ -56,7 +55,7 @@ class MakeEntityCommand extends Command
         $fullPath = Path::join($path, $className.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Entity file already exists.');
+            $io->error('Entity file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -67,7 +66,7 @@ class MakeEntityCommand extends Command
         ]);
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Entity file could not be written.');
+            $io->error('Entity file could not be written.');
 
             return static::CODE_ERROR;
         }

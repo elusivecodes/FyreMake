@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace {namespace};
 
-use Fyre\Auth\Policy;
 use Fyre\Entity\Entity;
 
-class {class} extends Policy
+class {class}
 {
     public function create(Entity|null $user): bool
     {

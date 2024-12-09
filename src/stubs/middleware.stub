@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace {namespace};
 
+use Closure;
 use Fyre\Middleware\Middleware;
-use Fyre\Middleware\RequestHandler;
 use Fyre\Server\ClientResponse;
 use Fyre\Server\ServerRequest;
 
 class {class} extends Middleware
 {
-    public function process(ServerRequest $request, RequestHandler $handler): ClientResponse
+    public function handle(ServerRequest $request, Closure $next): ClientResponse
     {
-        return $handler->handle($request);
+        return $next($request);
     }
 }

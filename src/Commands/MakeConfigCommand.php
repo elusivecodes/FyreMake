@@ -19,9 +19,15 @@ class MakeConfigCommand extends Command
 {
     protected string|null $alias = 'make:config';
 
-    protected string $description = 'This command will generate a new config file.';
+    protected string $description = 'Generate a new config file.';
 
-    protected string|null $name = 'Make Config';
+    protected array $options = [
+        'file' => [
+            'text' => 'Please enter the config file',
+            'required' => true,
+        ],
+        'path' => [],
+    ];
 
     /**
      * Run the command.
@@ -29,33 +35,22 @@ class MakeConfigCommand extends Command
      * @param array $arguments The command arguments.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Config $config, Console $io, string $file, string|null $path = null): int|null
     {
-        $config = $arguments[0] ?? null;
-        $path = $arguments['path'] ?? Config::getPaths()[0] ?? '';
-
-        if (!$config) {
-            $config = Console::prompt('Enter a name for the config');
-        }
-
-        if (!$config) {
-            Console::error('Invalid config name.');
-
-            return static::CODE_ERROR;
-        }
+        $path ??= $config->getPaths()[0] ?? '';
 
         if (file_exists($path) && !is_dir($path)) {
-            Console::error('Invalid config path.');
+            $io->error('Invalid config path.');
 
             return static::CODE_ERROR;
         }
 
-        $config = Make::normalizePath($config);
+        $file = Make::normalizePath($file);
 
-        $fullPath = Path::join($path, $config.'.php');
+        $fullPath = Path::join($path, $file.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Config file already exists.');
+            $io->error('Config file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -63,7 +58,7 @@ class MakeConfigCommand extends Command
         $contents = Make::loadStub('config');
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Config file could not be written.');
+            $io->error('Config file could not be written.');
 
             return static::CODE_ERROR;
         }

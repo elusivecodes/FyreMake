@@ -7,7 +7,7 @@ use Fyre\Command\Command;
 use Fyre\Console\Console;
 use Fyre\Make\Make;
 use Fyre\Utility\Path;
-use Fyre\View\Template;
+use Fyre\View\TemplateLocator;
 
 use function file_exists;
 use function is_dir;
@@ -19,44 +19,41 @@ class MakeCellTemplateCommand extends Command
 {
     protected string|null $alias = 'make:cell_template';
 
-    protected string $description = 'This command will generate a new cell template.';
+    protected string $description = 'Generate a new cell template.';
 
-    protected string|null $name = 'Make Cell Template';
+    protected array $options = [
+        'template' => [
+            'text' => 'Please enter the cell template',
+            'required' => true,
+        ],
+        'path' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param TemplateLocator $templateLocator The TemplateLocator.
+     * @param Console $io The Console.
+     * @param string $template The template name.
+     * @param string|null $path The template path.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(TemplateLocator $templateLocator, Console $io, string $template, string|null $path = null): int|null
     {
-        $template = $arguments[0] ?? null;
-        $path = $arguments['path'] ?? Template::getPaths()[0] ?? '';
-        $cellsFolder = Template::CELLS_FOLDER;
-
-        if (!$template) {
-            $template = Console::prompt('Enter a name for the template');
-        }
-
-        if (!$template) {
-            Console::error('Invalid template name.');
-
-            return static::CODE_ERROR;
-        }
+        $path ??= $templateLocator->getPaths()[0] ?? '';
 
         if (file_exists($path) && !is_dir($path)) {
-            Console::error('Invalid template path.');
+            $io->error('Invalid template path.');
 
             return static::CODE_ERROR;
         }
 
         $template = Make::normalizePath($template);
 
-        $fullPath = Path::join($path, $cellsFolder, $template.'.php');
+        $fullPath = Path::join($path, TemplateLocator::CELLS_FOLDER, $template.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Cell template file already exists.');
+            $io->error('Cell template file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -64,7 +61,7 @@ class MakeCellTemplateCommand extends Command
         $contents = Make::loadStub('cell_template');
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Cell template file could not be written.');
+            $io->error('Cell template file could not be written.');
 
             return static::CODE_ERROR;
         }

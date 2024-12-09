@@ -7,7 +7,7 @@ use Fyre\Command\Command;
 use Fyre\Console\Console;
 use Fyre\Make\Make;
 use Fyre\Utility\Path;
-use Fyre\View\Template;
+use Fyre\View\TemplateLocator;
 
 use function file_exists;
 use function is_dir;
@@ -19,33 +19,31 @@ class MakeTemplateCommand extends Command
 {
     protected string|null $alias = 'make:template';
 
-    protected string $description = 'This command will generate a new template.';
+    protected string $description = 'Generate a new template.';
 
-    protected string|null $name = 'Make Template';
+    protected array $options = [
+        'template' => [
+            'text' => 'Please enter the template',
+            'required' => true,
+        ],
+        'path' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param TemplateLocator $templateLocator The TemplateLocator.
+     * @param Console $io The Console.
+     * @param string $template The template name.
+     * @param string|null $path The template path.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(TemplateLocator $templateLocator, Console $io, string $template, string|null $path = null): int|null
     {
-        $template = $arguments[0] ?? null;
-        $path = $arguments['path'] ?? Template::getPaths()[0] ?? '';
-
-        if (!$template) {
-            $template = Console::prompt('Enter a name for the template');
-        }
-
-        if (!$template) {
-            Console::error('Invalid template name.');
-
-            return static::CODE_ERROR;
-        }
+        $path ??= $templateLocator->getPaths()[0] ?? '';
 
         if (file_exists($path) && !is_dir($path)) {
-            Console::error('Invalid template path.');
+            $io->error('Invalid template path.');
 
             return static::CODE_ERROR;
         }
@@ -55,7 +53,7 @@ class MakeTemplateCommand extends Command
         $fullPath = Path::join($path, $template.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Template file already exists.');
+            $io->error('Template file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -63,7 +61,7 @@ class MakeTemplateCommand extends Command
         $contents = Make::loadStub('template');
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Template file could not be written.');
+            $io->error('Template file could not be written.');
 
             return static::CODE_ERROR;
         }

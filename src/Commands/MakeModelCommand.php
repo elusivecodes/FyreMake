@@ -18,37 +18,36 @@ class MakeModelCommand extends Command
 {
     protected string|null $alias = 'make:model';
 
-    protected string $description = 'This command will generate a new model.';
+    protected string $description = 'Generate a new model.';
 
-    protected string|null $name = 'Make Model';
+    protected array $options = [
+        'name' => [
+            'text' => 'Please enter a name for the model',
+            'required' => true,
+        ],
+        'namespace' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param Make $make The Make.
+     * @param ModelRegistry $modelRegistry The ModelRegistry.
+     * @param Console $io The Console.
+     * @param string $name The model name.
+     * @param string|null $namespace The model namespace.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Make $make, ModelRegistry $modelRegistry, Console $io, string $name, string|null $namespace = null): int|null
     {
-        $model = $arguments[0] ?? null;
-        $namespace = $arguments['namespace'] ?? ModelRegistry::getNamespaces()[0] ?? 'App\Models';
+        $namespace ??= $modelRegistry->getNamespaces()[0] ?? 'App\Models';
 
-        if (!$model) {
-            $model = Console::prompt('Enter a name for the model');
-        }
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $name.'Model');
 
-        if (!$model) {
-            Console::error('Invalid model name.');
-
-            return static::CODE_ERROR;
-        }
-
-        [$namespace, $className] = Make::parseNamespaceClass($namespace, $model.'Model');
-
-        $path = Make::findPath($namespace);
+        $path = $make->findPath($namespace);
 
         if (!$path) {
-            Console::error('Namespace path not found.');
+            $io->error('Namespace path not found.');
 
             return static::CODE_ERROR;
         }
@@ -56,7 +55,7 @@ class MakeModelCommand extends Command
         $fullPath = Path::join($path, $className.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Model file already exists.');
+            $io->error('Model file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -67,7 +66,7 @@ class MakeModelCommand extends Command
         ]);
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Model file could not be written.');
+            $io->error('Model file could not be written.');
 
             return static::CODE_ERROR;
         }

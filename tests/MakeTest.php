@@ -3,33 +3,33 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Fyre\Auth\PolicyRegistry;
+use Fyre\Command\CommandRunner;
+use Fyre\Config\Config;
+use Fyre\Console\Console;
+use Fyre\Container\Container;
+use Fyre\Entity\EntityLocator;
 use Fyre\FileSystem\Folder;
-use Fyre\Make\Commands\MakeBehaviorCommand;
-use Fyre\Make\Commands\MakeCellCommand;
-use Fyre\Make\Commands\MakeCellTemplateCommand;
-use Fyre\Make\Commands\MakeCommandCommand;
-use Fyre\Make\Commands\MakeConfigCommand;
-use Fyre\Make\Commands\MakeControllerCommand;
-use Fyre\Make\Commands\MakeElementCommand;
-use Fyre\Make\Commands\MakeEntityCommand;
-use Fyre\Make\Commands\MakeHelperCommand;
-use Fyre\Make\Commands\MakeJobCommand;
-use Fyre\Make\Commands\MakeLangCommand;
-use Fyre\Make\Commands\MakeLayoutCommand;
-use Fyre\Make\Commands\MakeMiddlewareCommand;
-use Fyre\Make\Commands\MakeMigrationCommand;
-use Fyre\Make\Commands\MakeModelCommand;
-use Fyre\Make\Commands\MakePolicyCommand;
-use Fyre\Make\Commands\MakeTemplateCommand;
+use Fyre\Lang\Lang;
+use Fyre\Loader\Loader;
 use Fyre\Make\Make;
+use Fyre\Migration\MigrationRunner;
+use Fyre\ORM\BehaviorRegistry;
+use Fyre\ORM\ModelRegistry;
+use Fyre\Utility\Inflector;
+use Fyre\Utility\Path;
+use Fyre\View\CellRegistry;
+use Fyre\View\HelperRegistry;
+use Fyre\View\TemplateLocator;
 use PHPUnit\Framework\TestCase;
 
 final class MakeTest extends TestCase
 {
+    protected CommandRunner $commandRunner;
+
     public function testMakeBehavior(): void
     {
-        $makeBehavior = new MakeBehaviorCommand();
-        $makeBehavior->run(['Example']);
+        $this->commandRunner->run('make:behavior', ['Example']);
 
         $filePath = 'tmp/Models/Behaviors/ExampleBehavior.php';
 
@@ -46,7 +46,7 @@ final class MakeTest extends TestCase
 
     public function testMakeCell(): void
     {
-        (new MakeCellCommand())->run(['Example']);
+        $this->commandRunner->run('make:cell', ['Example']);
 
         $filePath = 'tmp/Cells/ExampleCell.php';
 
@@ -64,7 +64,7 @@ final class MakeTest extends TestCase
 
     public function testMakeCellTemplate(): void
     {
-        (new MakeCellTemplateCommand())->run(['Example.display']);
+        $this->commandRunner->run('make:cell_template', ['Example.display']);
 
         $filePath = 'tmp/templates/cells/Example/display.php';
 
@@ -78,7 +78,7 @@ final class MakeTest extends TestCase
 
     public function testMakeCommand(): void
     {
-        (new MakeCommandCommand())->run(['Example']);
+        $this->commandRunner->run('make:command', ['Example']);
 
         $filePath = 'tmp/Commands/ExampleCommand.php';
 
@@ -98,7 +98,7 @@ final class MakeTest extends TestCase
 
     public function testMakeConfig(): void
     {
-        (new MakeConfigCommand())->run(['example']);
+        $this->commandRunner->run('make:config', ['example']);
 
         $filePath = 'tmp/config/example.php';
 
@@ -112,7 +112,7 @@ final class MakeTest extends TestCase
 
     public function testMakeController(): void
     {
-        (new MakeControllerCommand())->run(['Example', 'namespace' => 'Example\Controllers']);
+        $this->commandRunner->run('make:controller', ['Example', 'namespace' => 'Example\Controllers']);
 
         $filePath = 'tmp/Controllers/ExampleController.php';
 
@@ -129,7 +129,7 @@ final class MakeTest extends TestCase
 
     public function testMakeElement(): void
     {
-        (new MakeElementCommand())->run(['example']);
+        $this->commandRunner->run('make:element', ['example']);
 
         $filePath = 'tmp/templates/elements/example.php';
 
@@ -143,7 +143,7 @@ final class MakeTest extends TestCase
 
     public function testMakeEntity(): void
     {
-        (new MakeEntityCommand())->run(['Example']);
+        $this->commandRunner->run('make:entity', ['Example']);
 
         $filePath = 'tmp/Entities/Example.php';
 
@@ -160,7 +160,7 @@ final class MakeTest extends TestCase
 
     public function testMakeHelper(): void
     {
-        (new MakeHelperCommand())->run(['Example']);
+        $this->commandRunner->run('make:helper', ['Example']);
 
         $filePath = 'tmp/Helpers/ExampleHelper.php';
 
@@ -177,7 +177,7 @@ final class MakeTest extends TestCase
 
     public function testMakeJob(): void
     {
-        (new MakeJobCommand())->run(['Example', 'namespace' => 'Example\Jobs']);
+        $this->commandRunner->run('make:job', ['Example', 'namespace' => 'Example\Jobs']);
 
         $filePath = 'tmp/Jobs/ExampleJob.php';
 
@@ -194,7 +194,7 @@ final class MakeTest extends TestCase
 
     public function testMakeLang(): void
     {
-        (new MakeLangCommand())->run(['Example']);
+        $this->commandRunner->run('make:lang', ['Example']);
 
         $filePath = 'tmp/lang/en/Example.php';
 
@@ -208,7 +208,7 @@ final class MakeTest extends TestCase
 
     public function testMakeLayout(): void
     {
-        (new MakeLayoutCommand())->run(['default']);
+        $this->commandRunner->run('make:layout', ['default']);
 
         $filePath = 'tmp/templates/layouts/default.php';
 
@@ -222,7 +222,7 @@ final class MakeTest extends TestCase
 
     public function testMakeMiddleware(): void
     {
-        (new MakeMiddlewareCommand())->run(['Example', 'namespace' => 'Example\Middleware']);
+        $this->commandRunner->run('make:middleware', ['Example', 'namespace' => 'Example\Middleware']);
 
         $filePath = 'tmp/Middleware/ExampleMiddleware.php';
 
@@ -239,7 +239,7 @@ final class MakeTest extends TestCase
 
     public function testMakeMigration(): void
     {
-        (new MakeMigrationCommand())->run(['20240101']);
+        $this->commandRunner->run('make:migration', ['20240101']);
 
         $filePath = 'tmp/Migrations/Migration_20240101.php';
 
@@ -256,7 +256,7 @@ final class MakeTest extends TestCase
 
     public function testMakeModel(): void
     {
-        (new MakeModelCommand())->run(['Example']);
+        $this->commandRunner->run('make:model', ['Example']);
 
         $filePath = 'tmp/Models/ExampleModel.php';
 
@@ -273,7 +273,7 @@ final class MakeTest extends TestCase
 
     public function testMakePolicy(): void
     {
-        (new MakePolicyCommand())->run(['Example']);
+        $this->commandRunner->run('make:policy', ['Example']);
 
         $filePath = 'tmp/Policies/ExamplePolicy.php';
 
@@ -290,7 +290,7 @@ final class MakeTest extends TestCase
 
     public function testMakeTemplate(): void
     {
-        (new MakeTemplateCommand())->run(['Example.index']);
+        $this->commandRunner->run('make:template', ['Example.index']);
 
         $filePath = 'tmp/templates/Example/index.php';
 
@@ -300,6 +300,51 @@ final class MakeTest extends TestCase
             Make::loadStub('template'),
             $filePath
         );
+    }
+
+    protected function setUp(): void
+    {
+        $container = new Container();
+        $container->singleton(Loader::class);
+        $container->singleton(Inflector::class);
+        $container->singleton(Config::class);
+        $container->singleton(Lang::class);
+        $container->singleton(TemplateLocator::class);
+        $container->singleton(Console::class);
+        $container->singleton(CommandRunner::class);
+        $container->singleton(CellRegistry::class);
+        $container->singleton(EntityLocator::class);
+        $container->singleton(HelperRegistry::class);
+        $container->singleton(MigrationRunner::class);
+        $container->singleton(ModelRegistry::class);
+        $container->singleton(BehaviorRegistry::class);
+        $container->singleton(PolicyRegistry::class);
+
+        $tmpDir = Path::normalize(__DIR__.'/../tmp');
+
+        $container->use(Loader::class)->addNamespaces([
+            'Example\\' => Path::join($tmpDir),
+            'Fyre\\Make\\Commands\\' => Path::normalize(__DIR__.'/../src/Commands'),
+        ]);
+
+        $container->use(Config::class)
+            ->addPath(Path::join($tmpDir, 'config'))
+            ->set('App.defaultLocale', 'en');
+        $container->use(Lang::class)->addPath(Path::join($tmpDir, 'lang'));
+        $container->use(TemplateLocator::class)->addPath(Path::join($tmpDir, 'templates'));
+
+        $container->use(CellRegistry::class)->addNamespace('Example\Cells');
+        $container->use(EntityLocator::class)->addNamespace('Example\Entities');
+        $container->use(HelperRegistry::class)->addNamespace('Example\Helpers');
+        $container->use(MigrationRunner::class)->setNamespace('Example\Migrations');
+        $container->use(ModelRegistry::class)->addNamespace('Example\Models');
+        $container->use(BehaviorRegistry::class)->addNamespace('Example\Models\Behaviors');
+        $container->use(PolicyRegistry::class)->addNamespace('Example\Policies');
+
+        $this->commandRunner = $container->use(CommandRunner::class);
+        $this->commandRunner
+            ->addNamespace('Example\Commands')
+            ->addNamespace('Fyre\Make\Commands');
     }
 
     protected function tearDown(): void

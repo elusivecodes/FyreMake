@@ -20,40 +20,40 @@ class MakeCommandCommand extends Command
 {
     protected string|null $alias = 'make:command';
 
-    protected string $description = 'This command will generate a new command.';
+    protected string $description = 'Generate a new command.';
 
-    protected string|null $name = 'Make Command';
+    protected array $options = [
+        'name' => [
+            'text' => 'Please enter a name for the command',
+            'required' => true,
+        ],
+        'alias' => [],
+        'description' => [],
+        'namespace' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param Make $make The Make.
+     * @param CommandRunner $commandRunner The CommandRunner.
+     * @param Console $io The Console.
+     * @param string $name The command name.
+     * @param string|null $alias The command alias.
+     * @param string|null $description The command description.
+     * @param string|null $namespace The command namespace.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Make $make, CommandRunner $commandRunner, Console $io, string $name, string|null $alias = null, string|null $description = null, string|null $namespace = null): int|null
     {
-        $command = $arguments[0] ?? null;
-        $alias = $arguments['alias'] ?? null;
-        $name = $arguments['name'] ?? null;
-        $description = $arguments['description'] ?? '';
-        $namespace = $arguments['namespace'] ?? CommandRunner::getNamespaces()[0] ?? 'App\Commands';
+        $namespace ??= $commandRunner->getNamespaces()[0] ?? 'App\Commands';
 
-        if (!$command) {
-            $command = Console::prompt('Enter a name for the command');
-        }
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $name.'Command');
 
-        if (!$command) {
-            Console::error('Invalid command name.');
-
-            return static::CODE_ERROR;
-        }
-
-        [$namespace, $className] = Make::parseNamespaceClass($namespace, $command.'Command');
-
-        $path = Make::findPath($namespace);
+        $path = $make->findPath($namespace);
 
         if (!$path) {
-            Console::error('Namespace path not found.');
+            $io->error('Namespace path not found.');
 
             return static::CODE_ERROR;
         }
@@ -61,25 +61,23 @@ class MakeCommandCommand extends Command
         $fullPath = Path::join($path, $className.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Command file already exists.');
+            $io->error('Command file already exists.');
 
             return static::CODE_ERROR;
         }
 
         $command = preg_replace('/Command$/', '', $className);
         $alias ??= strtolower(preg_replace('/(?<!^)([A-Z]+)/', '_$1', $command));
-        $name ??= preg_replace('/(?<!^)([A-Z]+)/', ' $1', $command);
 
         $contents = Make::loadStub('command', [
             '{namespace}' => $namespace,
             '{class}' => $className,
             '{alias}' => $alias,
-            '{name}' => $name,
-            '{description}' => $description,
+            '{description}' => $description ?? '',
         ]);
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Command file could not be written.');
+            $io->error('Command file could not be written.');
 
             return static::CODE_ERROR;
         }

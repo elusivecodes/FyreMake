@@ -17,37 +17,35 @@ class MakeJobCommand extends Command
 {
     protected string|null $alias = 'make:job';
 
-    protected string $description = 'This command will generate a new job.';
+    protected string $description = 'Generate a new job.';
 
-    protected string|null $name = 'Make Job';
+    protected array $options = [
+        'name' => [
+            'text' => 'Please enter a name for the job',
+            'required' => true,
+        ],
+        'namespace' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param Make $make The Make.
+     * @param Console $io The Console.
+     * @param string $name The job name.
+     * @param string|null $namespace The job namespace.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Make $make, Console $io, string $name, string|null $namespace = null): int|null
     {
-        $job = $arguments[0] ?? null;
-        $namespace = $arguments['namespace'] ?? 'App\Jobs';
+        $namespace ??= 'App\Jobs';
 
-        if (!$job) {
-            $job = Console::prompt('Enter a name for the job');
-        }
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $name.'Job');
 
-        if (!$job) {
-            Console::error('Invalid job name.');
-
-            return static::CODE_ERROR;
-        }
-
-        [$namespace, $className] = Make::parseNamespaceClass($namespace, $job.'Job');
-
-        $path = Make::findPath($namespace);
+        $path = $make->findPath($namespace);
 
         if (!$path) {
-            Console::error('Namespace path not found.');
+            $io->error('Namespace path not found.');
 
             return static::CODE_ERROR;
         }
@@ -55,7 +53,7 @@ class MakeJobCommand extends Command
         $fullPath = Path::join($path, $className.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Job file already exists.');
+            $io->error('Job file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -66,7 +64,7 @@ class MakeJobCommand extends Command
         ]);
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Job file could not be written.');
+            $io->error('Job file could not be written.');
 
             return static::CODE_ERROR;
         }

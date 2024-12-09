@@ -20,24 +20,24 @@
         }
     },
     "require": {
-        "fyre/auth": "^2.0",
-        "fyre/command": "^4.0",
-        "fyre/config": "^3.0",
-        "fyre/console": "^3.0",
-        "fyre/lang": "^3.0",
-        "fyre/loader": "^2.0",
-        "fyre/middleware": "^2.2",
-        "fyre/migration": "^4.0",
-        "fyre/orm": "^8.0",
+        "fyre/auth": "^3.0",
+        "fyre/command": "^6.0",
+        "fyre/config": "^4.0",
+        "fyre/console": "^4.0",
+        "fyre/lang": "^5.0",
+        "fyre/loader": "^3.0",
+        "fyre/middleware": "^6.0",
+        "fyre/migration": "^5.0",
+        "fyre/orm": "^10.0",
         "fyre/path": "^2.0",
-        "fyre/queue": "^2.0",
-        "fyre/view": "^9.0"
+        "fyre/queue": "^3.0",
+        "fyre/view": "^10.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.59",
         "fyre/filesystem": "^2.0",
         "fyre/php-cs-fixer-config": "^1.0",
-        "phpunit/phpunit": "^10"
+        "phpunit/phpunit": "^11"
     },
     "scripts": {
         "cs": "php-cs-fixer fix --ansi --verbose --dry-run --diff",

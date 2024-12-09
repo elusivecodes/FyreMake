@@ -19,9 +19,16 @@ class MakeLangCommand extends Command
 {
     protected string|null $alias = 'make:lang';
 
-    protected string $description = 'This command will generate a new langage file.';
+    protected string $description = 'Generate a new langage file.';
 
-    protected string|null $name = 'Make Lang';
+    protected array $options = [
+        'file' => [
+            'text' => 'Please enter the languge file',
+            'required' => true,
+        ],
+        'language' => [],
+        'path' => [],
+    ];
 
     /**
      * Run the command.
@@ -29,34 +36,23 @@ class MakeLangCommand extends Command
      * @param array $arguments The command arguments.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Lang $lang, Console $io, string $file, string|null $language = null, string|null $path = null): int|null
     {
-        $lang = $arguments[0] ?? null;
-        $language = $arguments['language'] ?? Lang::getDefaultLocale();
-        $path = $arguments['path'] ?? Lang::getPaths()[0] ?? '';
-
-        if (!$lang) {
-            $lang = Console::prompt('Enter a name for the lang');
-        }
-
-        if (!$lang) {
-            Console::error('Invalid lang name.');
-
-            return static::CODE_ERROR;
-        }
+        $language ??= $lang->getDefaultLocale();
+        $path ??= $lang->getPaths()[0] ?? '';
 
         if (file_exists($path) && !is_dir($path)) {
-            Console::error('Invalid lang path.');
+            $io->error('Invalid lang path.');
 
             return static::CODE_ERROR;
         }
 
-        $lang = Make::normalizePath($lang);
+        $file = Make::normalizePath($file);
 
-        $fullPath = Path::join($path, $language, $lang.'.php');
+        $fullPath = Path::join($path, $language, $file.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Lang file already exists.');
+            $io->error('Lang file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -64,7 +60,7 @@ class MakeLangCommand extends Command
         $contents = Make::loadStub('lang');
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Lang file could not be written.');
+            $io->error('Lang file could not be written.');
 
             return static::CODE_ERROR;
         }

@@ -18,38 +18,40 @@ class MakeCellCommand extends Command
 {
     protected string|null $alias = 'make:cell';
 
-    protected string $description = 'This command will generate a new cell.';
+    protected string $description = 'Generate a new cell.';
 
-    protected string|null $name = 'Make Cell';
+    protected array $options = [
+        'name' => [
+            'text' => 'Please enter a name for the cell',
+            'required' => true,
+        ],
+        'method' => [
+            'default' => 'display',
+        ],
+        'namespace' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param Make $make The Make.
+     * @param CellRegistry $cellRegistry The CellRegistry.
+     * @param Console $io The Console.
+     * @param string $name The cell name.
+     * @param string $method The cell method.
+     * @param string|null $namespace The cell namespace.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Make $make, CellRegistry $cellRegistry, Console $io, string $name, string $method, string|null $namespace = null): int|null
     {
-        $cell = $arguments[0] ?? null;
-        $method = $arguments['method'] ?? 'display';
-        $namespace = $arguments['namespace'] ?? CellRegistry::getNamespaces()[0] ?? 'App\Cells';
+        $namespace ??= $cellRegistry->getNamespaces()[0] ?? 'App\Cells';
 
-        if (!$cell) {
-            $cell = Console::prompt('Enter a name for the cell');
-        }
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $name.'Cell');
 
-        if (!$cell) {
-            Console::error('Invalid cell name.');
-
-            return static::CODE_ERROR;
-        }
-
-        [$namespace, $className] = Make::parseNamespaceClass($namespace, $cell.'Cell');
-
-        $path = Make::findPath($namespace);
+        $path = $make->findPath($namespace);
 
         if (!$path) {
-            Console::error('Namespace path not found.');
+            $io->error('Namespace path not found.');
 
             return static::CODE_ERROR;
         }
@@ -57,7 +59,7 @@ class MakeCellCommand extends Command
         $fullPath = Path::join($path, $className.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Cell file already exists.');
+            $io->error('Cell file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -69,7 +71,7 @@ class MakeCellCommand extends Command
         ]);
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Cell file could not be written.');
+            $io->error('Cell file could not be written.');
 
             return static::CODE_ERROR;
         }

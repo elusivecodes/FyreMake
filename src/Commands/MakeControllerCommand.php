@@ -17,37 +17,35 @@ class MakeControllerCommand extends Command
 {
     protected string|null $alias = 'make:controller';
 
-    protected string $description = 'This command will generate a new controller.';
+    protected string $description = 'Generate a new controller.';
 
-    protected string|null $name = 'Make Controller';
+    protected array $options = [
+        'name' => [
+            'text' => 'Please enter a name for the controller',
+            'required' => true,
+        ],
+        'namespace' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param Make $make The Make.
+     * @param Console $io The Console.
+     * @param string $name The controller name.
+     * @param string|null $namespace The controller namespace.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Make $make, Console $io, string $name, string|null $namespace = null): int|null
     {
-        $controller = $arguments[0] ?? null;
-        $namespace = $arguments['namespace'] ?? 'App\Controllers';
+        $namespace ??= 'App\Controllers';
 
-        if (!$controller) {
-            $controller = Console::prompt('Enter a name for the controller');
-        }
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $name.'Controller');
 
-        if (!$controller) {
-            Console::error('Invalid controller name.');
-
-            return static::CODE_ERROR;
-        }
-
-        [$namespace, $className] = Make::parseNamespaceClass($namespace, $controller.'Controller');
-
-        $path = Make::findPath($namespace);
+        $path = $make->findPath($namespace);
 
         if (!$path) {
-            Console::error('Namespace path not found.');
+            $io->error('Namespace path not found.');
 
             return static::CODE_ERROR;
         }
@@ -55,7 +53,7 @@ class MakeControllerCommand extends Command
         $fullPath = Path::join($path, $className.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Controller file already exists.');
+            $io->error('Controller file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -66,7 +64,7 @@ class MakeControllerCommand extends Command
         ]);
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Controller file could not be written.');
+            $io->error('Controller file could not be written.');
 
             return static::CODE_ERROR;
         }

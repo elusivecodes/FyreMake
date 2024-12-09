@@ -11,7 +11,7 @@ use Fyre\Validation\Validator;
 
 class {class} extends Model
 {
-    public function __construct()
+    public function initialize()
     {
         //
     }

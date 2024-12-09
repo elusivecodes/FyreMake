@@ -25,35 +25,9 @@ use const PHP_EOL;
 /**
  * Make
  */
-abstract class Make
+class Make
 {
-    /**
-     * Find full path to a namespace.
-     *
-     * @param string $namespace The namespace.
-     * @return string|null The full path.
-     */
-    public static function findPath(string $namespace): string|null
-    {
-        $namespaceSegments = explode('\\', $namespace);
-        $pathSegments = [];
-
-        while ($namespaceSegments !== []) {
-            $tempNamespace = implode('\\', $namespaceSegments);
-            $paths = Loader::getNamespace($tempNamespace);
-
-            if ($paths === []) {
-                $segment = array_pop($namespaceSegments);
-                array_unshift($pathSegments, $segment);
-
-                continue;
-            }
-
-            return Path::join($paths[0], ...$pathSegments);
-        }
-
-        return null;
-    }
+    protected Loader $loader;
 
     /**
      * Load a stub file with replacements.
@@ -124,6 +98,44 @@ abstract class Make
         }
 
         return file_put_contents($fullPath, $contents, LOCK_EX) !== false;
+    }
+
+    /**
+     * New Make constructor.
+     *
+     * @param Loader $loader The Loader.
+     */
+    public function __construct(Loader $loader)
+    {
+        $this->loader = $loader;
+    }
+
+    /**
+     * Find full path to a namespace.
+     *
+     * @param string $namespace The namespace.
+     * @return string|null The full path.
+     */
+    public function findPath(string $namespace): string|null
+    {
+        $namespaceSegments = explode('\\', $namespace);
+        $pathSegments = [];
+
+        while ($namespaceSegments !== []) {
+            $tempNamespace = implode('\\', $namespaceSegments);
+            $paths = $this->loader->getNamespace($tempNamespace);
+
+            if ($paths === []) {
+                $segment = array_pop($namespaceSegments);
+                array_unshift($pathSegments, $segment);
+
+                continue;
+            }
+
+            return Path::join($paths[0], ...$pathSegments);
+        }
+
+        return null;
     }
 
     /**

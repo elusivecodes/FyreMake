@@ -18,37 +18,36 @@ class MakeHelperCommand extends Command
 {
     protected string|null $alias = 'make:helper';
 
-    protected string $description = 'This command will generate a new helper.';
+    protected string $description = 'Generate a new helper.';
 
-    protected string|null $name = 'Make Helper';
+    protected array $options = [
+        'name' => [
+            'text' => 'Please enter a name for the helper',
+            'required' => true,
+        ],
+        'namespace' => [],
+    ];
 
     /**
      * Run the command.
      *
-     * @param array $arguments The command arguments.
+     * @param Make $make The Make.
+     * @param HelperRegistry $helperRegistry The HelperRegistry.
+     * @param Console $io The Console.
+     * @param string $name The helper name.
+     * @param string|null $namespace The helper namespace.
      * @return int|null The exit code.
      */
-    public function run(array $arguments = []): int|null
+    public function run(Make $make, HelperRegistry $helperRegistry, Console $io, string $name, string|null $namespace = null): int|null
     {
-        $helper = $arguments[0] ?? null;
-        $namespace = $arguments['namespace'] ?? HelperRegistry::getNamespaces()[0] ?? 'App\Helpers';
+        $namespace ??= $helperRegistry->getNamespaces()[0] ?? 'App\Helpers';
 
-        if (!$helper) {
-            $helper = Console::prompt('Enter a name for the helper');
-        }
+        [$namespace, $className] = Make::parseNamespaceClass($namespace, $name.'Helper');
 
-        if (!$helper) {
-            Console::error('Invalid helper name.');
-
-            return static::CODE_ERROR;
-        }
-
-        [$namespace, $className] = Make::parseNamespaceClass($namespace, $helper.'Helper');
-
-        $path = Make::findPath($namespace);
+        $path = $make->findPath($namespace);
 
         if (!$path) {
-            Console::error('Namespace path not found.');
+            $io->error('Namespace path not found.');
 
             return static::CODE_ERROR;
         }
@@ -56,7 +55,7 @@ class MakeHelperCommand extends Command
         $fullPath = Path::join($path, $className.'.php');
 
         if (file_exists($fullPath)) {
-            Console::error('Helper file already exists.');
+            $io->error('Helper file already exists.');
 
             return static::CODE_ERROR;
         }
@@ -67,7 +66,7 @@ class MakeHelperCommand extends Command
         ]);
 
         if (!Make::saveFile($fullPath, $contents)) {
-            Console::error('Helper file could not be written.');
+            $io->error('Helper file could not be written.');
 
             return static::CODE_ERROR;
         }
