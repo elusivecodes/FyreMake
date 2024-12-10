@@ -50,16 +50,16 @@
         },
         {
             "name": "fyre/auth",
-            "version": "v3.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreAuth.git",
-                "reference": "8c765d315adeca53b86f5e9192dd854a31cf8025"
+                "reference": "a9ecd939c758bd75edf6635d358f6363146b2ec8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreAuth/zipball/8c765d315adeca53b86f5e9192dd854a31cf8025",
-                "reference": "8c765d315adeca53b86f5e9192dd854a31cf8025",
+                "url": "https://api.github.com/repos/elusivecodes/FyreAuth/zipball/a9ecd939c758bd75edf6635d358f6363146b2ec8",
+                "reference": "a9ecd939c758bd75edf6635d358f6363146b2ec8",
                 "shasum": ""
             },
             "require": {
@@ -97,9 +97,9 @@
             "description": "An authentication and authorization library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreAuth/issues",
-                "source": "https://github.com/elusivecodes/FyreAuth/tree/v3.0"
+                "source": "https://github.com/elusivecodes/FyreAuth/tree/v3.0.1"
             },
-            "time": "2024-12-06T11:23:23+00:00"
+            "time": "2024-12-10T08:57:44+00:00"
         },
         {
             "name": "fyre/cache",
@@ -329,16 +329,16 @@
         },
         {
             "name": "fyre/container",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreContainer.git",
-                "reference": "d84e485930b6782fb20300a4ab87a404280f2114"
+                "reference": "00d4c177b68c1474eac5228116794694e82cd70d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreContainer/zipball/d84e485930b6782fb20300a4ab87a404280f2114",
-                "reference": "d84e485930b6782fb20300a4ab87a404280f2114",
+                "url": "https://api.github.com/repos/elusivecodes/FyreContainer/zipball/00d4c177b68c1474eac5228116794694e82cd70d",
+                "reference": "00d4c177b68c1474eac5228116794694e82cd70d",
                 "shasum": ""
             },
             "require-dev": {
@@ -365,9 +365,9 @@
             "description": "A container library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreContainer/issues",
-                "source": "https://github.com/elusivecodes/FyreContainer/tree/v1.0.2"
+                "source": "https://github.com/elusivecodes/FyreContainer/tree/v1.0.3"
             },
-            "time": "2024-11-02T02:28:03+00:00"
+            "time": "2024-12-10T08:49:16+00:00"
         },
         {
             "name": "fyre/cookie",
@@ -832,16 +832,16 @@
         },
         {
             "name": "fyre/formbuilder",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreFormBuilder.git",
-                "reference": "c319c2d8ae519913b22d7a5fddf70b7c0ee4723f"
+                "reference": "2a7b7d2f215695e18e8c564011c292da8e22061e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreFormBuilder/zipball/c319c2d8ae519913b22d7a5fddf70b7c0ee4723f",
-                "reference": "c319c2d8ae519913b22d7a5fddf70b7c0ee4723f",
+                "url": "https://api.github.com/repos/elusivecodes/FyreFormBuilder/zipball/2a7b7d2f215695e18e8c564011c292da8e22061e",
+                "reference": "2a7b7d2f215695e18e8c564011c292da8e22061e",
                 "shasum": ""
             },
             "require": {
@@ -871,9 +871,9 @@
             "description": "A form builder library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreFormBuilder/issues",
-                "source": "https://github.com/elusivecodes/FyreFormBuilder/tree/v3.0.1"
+                "source": "https://github.com/elusivecodes/FyreFormBuilder/tree/v3.1.0"
             },
-            "time": "2024-10-30T11:24:18+00:00"
+            "time": "2024-12-10T08:47:28+00:00"
         },
         {
             "name": "fyre/header",
@@ -919,17 +919,20 @@
         },
         {
             "name": "fyre/htmlhelper",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreHTMLHelper.git",
-                "reference": "62cf8f7a339f0424d8fb67432ed7079af468706b"
+                "reference": "9cd87236724d3fce2974054096c7a670fe08548a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreHTMLHelper/zipball/62cf8f7a339f0424d8fb67432ed7079af468706b",
-                "reference": "62cf8f7a339f0424d8fb67432ed7079af468706b",
+                "url": "https://api.github.com/repos/elusivecodes/FyreHTMLHelper/zipball/9cd87236724d3fce2974054096c7a670fe08548a",
+                "reference": "9cd87236724d3fce2974054096c7a670fe08548a",
                 "shasum": ""
+            },
+            "require": {
+                "fyre/config": "^4.1"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.59",
@@ -955,9 +958,9 @@
             "description": "A HTML helper library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreHTMLHelper/issues",
-                "source": "https://github.com/elusivecodes/FyreHTMLHelper/tree/v3.0.1"
+                "source": "https://github.com/elusivecodes/FyreHTMLHelper/tree/v3.1.0"
             },
-            "time": "2024-10-30T11:23:25+00:00"
+            "time": "2024-12-10T08:45:04+00:00"
         },
         {
             "name": "fyre/inflector",
@@ -1325,16 +1328,16 @@
         },
         {
             "name": "fyre/orm",
-            "version": "v10.0.2",
+            "version": "v10.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreORM.git",
-                "reference": "3b0b53df74a746670faa602d1506e5bc2c71f25b"
+                "reference": "b735f8df3d8d47edbc35da5dbb8ff6a732414768"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreORM/zipball/3b0b53df74a746670faa602d1506e5bc2c71f25b",
-                "reference": "3b0b53df74a746670faa602d1506e5bc2c71f25b",
+                "url": "https://api.github.com/repos/elusivecodes/FyreORM/zipball/b735f8df3d8d47edbc35da5dbb8ff6a732414768",
+                "reference": "b735f8df3d8d47edbc35da5dbb8ff6a732414768",
                 "shasum": ""
             },
             "require": {
@@ -1371,9 +1374,9 @@
             "description": "An ORM library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreORM/issues",
-                "source": "https://github.com/elusivecodes/FyreORM/tree/v10.0.2"
+                "source": "https://github.com/elusivecodes/FyreORM/tree/v10.0.3"
             },
-            "time": "2024-12-07T03:21:14+00:00"
+            "time": "2024-12-10T08:51:55+00:00"
         },
         {
             "name": "fyre/path",
@@ -1419,16 +1422,16 @@
         },
         {
             "name": "fyre/queue",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreQueue.git",
-                "reference": "daccfd344ea806d6486623a72f4a8eed752e602b"
+                "reference": "26292f614d135a26be32ac647d9e99318fbfd087"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreQueue/zipball/daccfd344ea806d6486623a72f4a8eed752e602b",
-                "reference": "daccfd344ea806d6486623a72f4a8eed752e602b",
+                "url": "https://api.github.com/repos/elusivecodes/FyreQueue/zipball/26292f614d135a26be32ac647d9e99318fbfd087",
+                "reference": "26292f614d135a26be32ac647d9e99318fbfd087",
                 "shasum": ""
             },
             "require": {
@@ -1461,9 +1464,9 @@
             "description": "A Queue library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreQueue/issues",
-                "source": "https://github.com/elusivecodes/FyreQueue/tree/v3.0.2"
+                "source": "https://github.com/elusivecodes/FyreQueue/tree/v3.0.3"
             },
-            "time": "2024-11-17T00:55:06+00:00"
+            "time": "2024-12-09T05:33:25+00:00"
         },
         {
             "name": "fyre/request",
@@ -1937,16 +1940,16 @@
         },
         {
             "name": "fyre/view",
-            "version": "v10.0",
+            "version": "v10.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreView.git",
-                "reference": "d7ac4effee48f0cbf5dcf20bd643c3bf1116d94a"
+                "reference": "8f676331b4896eafb1ab841b6cfe56555118f0d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreView/zipball/d7ac4effee48f0cbf5dcf20bd643c3bf1116d94a",
-                "reference": "d7ac4effee48f0cbf5dcf20bd643c3bf1116d94a",
+                "url": "https://api.github.com/repos/elusivecodes/FyreView/zipball/8f676331b4896eafb1ab841b6cfe56555118f0d1",
+                "reference": "8f676331b4896eafb1ab841b6cfe56555118f0d1",
                 "shasum": ""
             },
             "require": {
@@ -1985,9 +1988,9 @@
             "description": "A template rendering library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreView/issues",
-                "source": "https://github.com/elusivecodes/FyreView/tree/v10.0"
+                "source": "https://github.com/elusivecodes/FyreView/tree/v10.0.1"
             },
-            "time": "2024-12-08T06:33:36+00:00"
+            "time": "2024-12-10T09:00:30+00:00"
         }
     ],
     "packages-dev": [
@@ -5389,8 +5392,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -5465,8 +5468,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -5543,8 +5546,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -5701,8 +5704,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -5781,8 +5784,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
