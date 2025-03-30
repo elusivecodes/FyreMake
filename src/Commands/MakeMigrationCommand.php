@@ -22,6 +22,9 @@ class MakeMigrationCommand extends Command
     protected string $description = 'Generate a new migration.';
 
     protected array $options = [
+        'name' => [
+            'required' => true,
+        ],
         'version' => [],
         'namespace' => [],
     ];
@@ -32,18 +35,17 @@ class MakeMigrationCommand extends Command
      * @param Make $make The Make.
      * @param MigrationRunner $migrationRunner The MigrationRunner.
      * @param Console $io The Console.
+     * @param string $name The migration name.
      * @param string|null $version The migration version.
      * @param string|null $namespace The migration namespace.
      * @return int|null The exit code.
      */
-    public function run(Make $make, MigrationRunner $migrationRunner, Console $io, string|null $version = null, string|null $namespace = null): int|null
+    public function run(Make $make, MigrationRunner $migrationRunner, Console $io, string $name, string|null $version = null, string|null $namespace = null): int|null
     {
-        $version ??= date('Ymd');
-        $namespace ??= $migrationRunner->getNamespace() ?? 'App\Migrations';
+        $version ??= date('Y-m-d\TH:i:s');
+        $namespace ??= $migrationRunner->getNamespaces()[0] ?? 'App\Migrations';
 
-        $version = (int) $version;
-
-        $migration = 'Migration_'.$version;
+        $migration = 'Migration_'.$version.'_'.$name;
 
         [$namespace, $className] = Make::parseNamespaceClass($namespace, $migration);
 

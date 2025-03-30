@@ -153,7 +153,7 @@ $runner->run('make:middleware', ['Example']);
 Generate a new [*Migration*](https://github.com/elusivecodes/FyreMigration#migrations).
 
 ```php
-$runner->run('make:migration');
+$runner->run('make:migration', ['Example']);
 ```
 
 ### Make Model

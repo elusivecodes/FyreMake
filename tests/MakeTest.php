@@ -239,16 +239,16 @@ final class MakeTest extends TestCase
 
     public function testMakeMigration(): void
     {
-        $this->commandRunner->run('make:migration', ['20240101']);
+        $this->commandRunner->run('make:migration', ['CreateTables', '20240101']);
 
-        $filePath = 'tmp/Migrations/Migration_20240101.php';
+        $filePath = 'tmp/Migrations/Migration_20240101_CreateTables.php';
 
         $this->assertFileExists($filePath);
 
         $this->assertFileMatchesFormat(
             Make::loadStub('migration', [
                 '{namespace}' => 'Example\Migrations',
-                '{class}' => 'Migration_20240101',
+                '{class}' => 'Migration_20240101_CreateTables',
             ]),
             $filePath
         );
@@ -336,7 +336,7 @@ final class MakeTest extends TestCase
         $container->use(CellRegistry::class)->addNamespace('Example\Cells');
         $container->use(EntityLocator::class)->addNamespace('Example\Entities');
         $container->use(HelperRegistry::class)->addNamespace('Example\Helpers');
-        $container->use(MigrationRunner::class)->setNamespace('Example\Migrations');
+        $container->use(MigrationRunner::class)->addNamespace('Example\Migrations');
         $container->use(ModelRegistry::class)->addNamespace('Example\Models');
         $container->use(BehaviorRegistry::class)->addNamespace('Example\Models\Behaviors');
         $container->use(PolicyRegistry::class)->addNamespace('Example\Policies');
