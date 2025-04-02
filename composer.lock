@@ -1284,16 +1284,16 @@
         },
         {
             "name": "fyre/migration",
-            "version": "v6.0",
+            "version": "v6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreMigration.git",
-                "reference": "2142ccb47ebf8b52881576039b3c35562ad348e1"
+                "reference": "854ed5d0f3bd0f5523507973813d7a33caad9734"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreMigration/zipball/2142ccb47ebf8b52881576039b3c35562ad348e1",
-                "reference": "2142ccb47ebf8b52881576039b3c35562ad348e1",
+                "url": "https://api.github.com/repos/elusivecodes/FyreMigration/zipball/854ed5d0f3bd0f5523507973813d7a33caad9734",
+                "reference": "854ed5d0f3bd0f5523507973813d7a33caad9734",
                 "shasum": ""
             },
             "require": {
@@ -1327,9 +1327,9 @@
             "description": "A database migration library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreMigration/issues",
-                "source": "https://github.com/elusivecodes/FyreMigration/tree/v6.0"
+                "source": "https://github.com/elusivecodes/FyreMigration/tree/v6.0.1"
             },
-            "time": "2025-03-30T06:19:13+00:00"
+            "time": "2025-04-02T12:19:28+00:00"
         },
         {
             "name": "fyre/negotiate",
@@ -1470,16 +1470,16 @@
         },
         {
             "name": "fyre/queue",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreQueue.git",
-                "reference": "8e241aba659f74468cea6bdbe2c749d55592df3d"
+                "reference": "ef46d765f0a83ad7cd932ffd624123b9b6489a85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreQueue/zipball/8e241aba659f74468cea6bdbe2c749d55592df3d",
-                "reference": "8e241aba659f74468cea6bdbe2c749d55592df3d",
+                "url": "https://api.github.com/repos/elusivecodes/FyreQueue/zipball/ef46d765f0a83ad7cd932ffd624123b9b6489a85",
+                "reference": "ef46d765f0a83ad7cd932ffd624123b9b6489a85",
                 "shasum": ""
             },
             "require": {
@@ -1513,9 +1513,9 @@
             "description": "A Queue library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreQueue/issues",
-                "source": "https://github.com/elusivecodes/FyreQueue/tree/v3.2.0"
+                "source": "https://github.com/elusivecodes/FyreQueue/tree/v3.2.1"
             },
-            "time": "2025-03-29T11:40:08+00:00"
+            "time": "2025-04-02T12:21:14+00:00"
         },
         {
             "name": "fyre/request",
