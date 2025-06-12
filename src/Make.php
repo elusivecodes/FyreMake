@@ -27,8 +27,6 @@ use const PHP_EOL;
  */
 class Make
 {
-    protected Loader $loader;
-
     /**
      * Load a stub file with replacements.
      *
@@ -105,10 +103,9 @@ class Make
      *
      * @param Loader $loader The Loader.
      */
-    public function __construct(Loader $loader)
-    {
-        $this->loader = $loader;
-    }
+    public function __construct(
+        protected Loader $loader
+    ) {}
 
     /**
      * Find full path to a namespace.
